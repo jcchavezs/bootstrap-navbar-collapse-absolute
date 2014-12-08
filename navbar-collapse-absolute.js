@@ -16,27 +16,30 @@
  * limitations under the License.
  * ========================================================== */
 
-
 jQuery(document).ready(function($) {
-	function navbarCollapseAbsoluteGetTarget(e) {
-	    var targetSelector = $(e).data('target');
-
-	    if (typeof targetSelector == 'undefined') {
-	        targetSelector = 'body';
-	    }
-
-	    return targetSelector;
-	}
+    function navbarCollapseAbsoluteGetTarget(e) {
+        var targetSelector = $(e).data('target');
+        if (typeof targetSelector == 'undefined') {
+            targetSelector = 'body';
+        }
+        return targetSelector;
+    }
 
     $('.navbar-collapse-absolute').each(function(i, e) {
-    	containerSelector = navbarCollapseAbsoluteGetTarget(e);
+        containerSelector = navbarCollapseAbsoluteGetTarget(e);
 
-        $(containerSelector).append('<div class="navbar-collapse-absolute-overlay" />');
+        $(containerSelector).append($('<div />', {
+            'class': 'navbar-collapse-absolute-overlay',
+            'on': {
+                'click': function() {
+                    $(e).collapse('hide');
+                }
+            }
+        }));
     });
 
     $('.navbar-collapse-absolute').on('hidden.bs.collapse show.bs.collapse', function(evt) {
         var containerSelector = navbarCollapseAbsoluteGetTarget(evt.target);
-
-       	$(containerSelector).toggleClass('navbar-collapse-absolute-in');
+        $(containerSelector).toggleClass('navbar-collapse-absolute-in');
     });
 });
